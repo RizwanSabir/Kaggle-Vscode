@@ -28,6 +28,7 @@ class ColabCode:
         mount_drive=False,
         code=True,
         lab=False,
+        token=""
     ):
         self.port = port
         self.password = password
@@ -35,20 +36,28 @@ class ColabCode:
         self._mount = mount_drive
         self._code = code
         self._lab = lab
+        self.token=token
         if self._lab:
             self._start_server()
             self._run_lab()
         if self._code:
-            self._install_code()
+            self._install_code(token)
             self._install_extensions()
             self._start_server()
             self._run_code()
 
     @staticmethod
-    def _install_code():
+    def _install_code(token):
+        
+        subprocess.run(["pip", "install", "pyngrok"], check=True)
+        subprocess.run(["pip", "install", "uvicorn"], check=True)
+        
+        # Corrected ngrok command
+        subprocess.run(["ngrok", "config", "add-authtoken", token], check=True)
+       
         subprocess.run(["wget", "https://code-server.dev/install.sh"], stdout=subprocess.PIPE)
         subprocess.run(
-            ["sh", "install.sh", "--version", f"{CODESERVER_VERSION}"],
+            ["sh", "install.sh"],
             stdout=subprocess.PIPE,
         )
 
