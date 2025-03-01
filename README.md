@@ -20,7 +20,7 @@ Replace `YOUR_NGROK_AUTHTOKEN` with your actual Ngrok authentication token.
 After running the installation commands, execute the following command to start VS Code:
 
 ```python
-ColabCode(port=1000)
+ColabCode(port=1000,token="YOUR-NGROK-TOKEN")
 ```
 
 Then, run the `vscode.py` file to launch VS Code in your Kaggle environment.
